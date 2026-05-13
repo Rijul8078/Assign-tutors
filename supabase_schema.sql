@@ -126,3 +126,11 @@ create table if not exists announcements (
   is_active bigint,
   created_at timestamptz
 );
+
+create table if not exists enquiry_files (
+  id bigint primary key,
+  enquiry_id bigint,
+  file_path text,
+  file_original_name text,
+  created_at timestamptz
+);

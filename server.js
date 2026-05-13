@@ -74,7 +74,8 @@ async function syncAllToSupabase() {
     { local: "notifications", remote: "notifications" },
     { local: "referrals", remote: "referrals" },
     { local: "discount_codes", remote: "discount_codes" },
-    { local: "announcements", remote: "announcements" }
+    { local: "announcements", remote: "announcements" },
+    { local: "enquiry_files", remote: "enquiry_files" }
   ];
   const summary = {};
   for (const item of tableMap) {
@@ -234,6 +235,16 @@ db.serialize(() => {
       message TEXT NOT NULL,
       is_active INTEGER NOT NULL DEFAULT 1,
       created_at TEXT NOT NULL
+    )
+  `);
+  db.run(`
+    CREATE TABLE IF NOT EXISTS enquiry_files (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      enquiry_id INTEGER NOT NULL,
+      file_path TEXT NOT NULL,
+      file_original_name TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY(enquiry_id) REFERENCES enquiries(id)
     )
   `);
 });
@@ -399,7 +410,7 @@ app.post("/api/admin/supabase/sync-all", requireAdminApi, async (_req, res) => {
   }
 });
 
-app.post("/api/enquiries", upload.single("brief_file"), async (req, res) => {
+app.post("/api/enquiries", upload.array("brief_files", 10), async (req, res) => {
   try {
     const { full_name, email, phone, course_subject, assignment_type, deadline, word_count, budget, requirements, preferred_contact, referral_code_input } = req.body;
     if (!full_name || !email || !phone || !course_subject || !assignment_type || !deadline || !requirements) {
@@ -417,6 +428,8 @@ app.post("/api/enquiries", upload.single("brief_file"), async (req, res) => {
         referralStatus = "invalid";
       }
     }
+    const files = Array.isArray(req.files) ? req.files : [];
+    const firstFile = files[0] || null;
     const inserted = await run(
       `INSERT INTO enquiries(created_at,full_name,email,phone,course_subject,assignment_type,deadline,word_count,budget,requirements,preferred_contact,file_path,file_original_name,referral_code_input,referral_status,referral_referrer_student_id)
        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
@@ -432,13 +445,21 @@ app.post("/api/enquiries", upload.single("brief_file"), async (req, res) => {
         budget ? budget.trim() : null,
         requirements.trim(),
         preferred_contact ? preferred_contact.trim() : null,
-        req.file ? `/uploads/${req.file.filename}` : null,
-        req.file ? req.file.originalname : null,
+        firstFile ? `/uploads/${firstFile.filename}` : null,
+        firstFile ? firstFile.originalname : null,
         codeInput || null,
         referralStatus,
         referrerId
       ]
     );
+    if (files.length > 0) {
+      for (const f of files) {
+        await run(
+          "INSERT INTO enquiry_files(enquiry_id,file_path,file_original_name,created_at) VALUES(?,?,?,?)",
+          [inserted.lastID, `/uploads/${f.filename}`, f.originalname, nowIso()]
+        );
+      }
+    }
     try {
       const saved = await get("SELECT * FROM enquiries WHERE id=?", [inserted.lastID]);
       await supabaseUpsert("enquiries", saved);
@@ -457,7 +478,7 @@ app.post("/api/enquiries", upload.single("brief_file"), async (req, res) => {
         word_count,
         budget,
         requirements,
-        file_original_name: req.file ? req.file.originalname : null
+        file_original_name: firstFile ? firstFile.originalname : null
       });
     } catch (e) {
       console.error("Email notify failed:", e.message);
