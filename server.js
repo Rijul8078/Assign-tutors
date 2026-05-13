@@ -410,7 +410,7 @@ app.post("/api/admin/supabase/sync-all", requireAdminApi, async (_req, res) => {
   }
 });
 
-app.post("/api/enquiries", upload.array("brief_files", 10), async (req, res) => {
+app.post("/api/enquiries", upload.fields([{ name: "brief_files", maxCount: 10 }, { name: "brief_file", maxCount: 1 }]), async (req, res) => {
   try {
     const { full_name, email, phone, course_subject, assignment_type, deadline, word_count, budget, requirements, preferred_contact, referral_code_input } = req.body;
     if (!full_name || !email || !phone || !course_subject || !assignment_type || !deadline || !requirements) {
@@ -428,7 +428,8 @@ app.post("/api/enquiries", upload.array("brief_files", 10), async (req, res) => 
         referralStatus = "invalid";
       }
     }
-    const files = Array.isArray(req.files) ? req.files : [];
+    const filesObj = req.files && typeof req.files === "object" ? req.files : {};
+    const files = [...(filesObj.brief_files || []), ...(filesObj.brief_file || [])];
     const firstFile = files[0] || null;
     const inserted = await run(
       `INSERT INTO enquiries(created_at,full_name,email,phone,course_subject,assignment_type,deadline,word_count,budget,requirements,preferred_contact,file_path,file_original_name,referral_code_input,referral_status,referral_referrer_student_id)
