@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="220" viewBox="0 0 980 220" role="img" aria-labelledby="t d">
+  <title id="t">Assign Tutors</title>
+  <desc id="d">Assign Tutors logo with tagline and transparent background.</desc>
+
+  <g transform="translate(20,44)">
+    <line x1="18" y1="86" x2="86" y2="0" stroke="#F04A73" stroke-width="20" stroke-linecap="round"/>
+    <line x1="72" y1="86" x2="140" y2="0" stroke="#F3C645" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="116" cy="86" r="16" fill="#49BE66"/>
+  </g>
+
+  <g transform="translate(180,64)">
+    <text x="0" y="66" font-family="Poppins, Segoe UI, Arial, sans-serif" font-size="78" font-weight="700" fill="#1E2C72">Assign</text>
+    <text x="292" y="66" font-family="Poppins, Segoe UI, Arial, sans-serif" font-size="78" font-weight="700" fill="#2AB6E6">Tutors</text>
+    <circle cx="236" cy="14" r="11" fill="#49BE66"/>
+    <text x="4" y="126" font-family="Poppins, Segoe UI, Arial, sans-serif" font-size="38" font-weight="500" fill="#202020">
+      Bringing world-class tutors to your fingertips
+    </text>
+  </g>
+</svg>

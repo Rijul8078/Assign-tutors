@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Student Dashboard | Assign Tutors</title><meta name="theme-color" content="#1f5f4a"><link rel="manifest" href="/manifest.webmanifest"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/styles.css"></head>
+<body class="portal-bg">
+<div class="portal-layout">
+  <aside class="portal-sidebar">
+    <a class="brand" href="/"><img src="/assets/assign_tutors_logo_transparent.png" alt="logo"><span class="sr-only">Assign Tutors</span></a>
+    <nav class="portal-nav">
+      <a href="#" class="active" data-view="overview">Overview</a>
+      <a href="#" data-view="orders">Orders</a>
+      <a href="#" data-view="chat">Order Chat <span id="nav-chat-badge" class="tiny-badge">0</span></a>
+      <a href="#" data-view="files">Files</a>
+      <a href="#" data-view="referrals">Referrals</a>
+      <a href="#" data-view="notifications">Notifications</a>
+    </nav>
+    <button id="logout" class="btn btn-outline" type="button">Logout</button>
+  </aside>
+  <section class="portal-main">
+    <header class="portal-topbar"><h1>Student Dashboard</h1><div class="top-actions"><label>Currency<select id="currency-select"><option value="INR">INR</option><option value="GBP">GBP</option><option value="USD">USD</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="EUR">EUR</option><option value="AED">AED</option></select></label><button id="mark-read" class="btn btn-outline" type="button">Mark Read</button><button id="notif-btn" class="notif-btn" type="button">Bell <span id="notif-count">0</span></button></div></header>
+    <div id="student-announcement" class="card" style="display:none;margin-bottom:.8rem"></div>
+
+    <div id="view-overview" class="portal-view active">
+      <div class="grid3">
+        <article class="card kpi"><h3 id="kpi-total">0</h3><p>Total Orders</p></article>
+        <article class="card kpi"><h3 id="kpi-active">0</h3><p>Active Orders</p></article>
+        <article class="card kpi"><h3 id="kpi-due">0</h3><p>Total Due Payment</p></article>
+      </div>
+    </div>
+
+    <div id="view-orders" class="portal-view">
+      <article class="card"><h3>Your Orders</h3><div style="overflow:auto"><table class="data-table" id="orders-table"><thead><tr><th>Order ID</th><th>Title</th><th>Status</th><th>Progress</th><th>Budget</th><th>Paid</th><th>Due</th><th>Deadline</th></tr></thead><tbody></tbody></table></div></article>
+    </div>
+
+    <div id="view-chat" class="portal-view">
+      <article class="card"><h3>Live Comments / Messages</h3><label>Order<select id="chat-order"></select></label><div id="chat-box" class="chat-box"></div><label>Message<textarea id="chat-message" rows="3"></textarea></label><label>Attach File<input id="chat-file" type="file"></label><div id="chat-dropzone" class="dropzone">Drop file here or use file picker</div><progress id="chat-upload-progress" max="100" value="0" class="upload-progress"></progress><button id="send-chat" class="btn btn-primary" type="button">Send Message</button></article>
+    </div>
+
+    <div id="view-notifications" class="portal-view">
+      <article class="card"><h3>Live Notifications</h3><div id="notif-box" class="chat-box"></div></article>
+    </div>
+    <div id="view-files" class="portal-view">
+      <article class="card"><h3>Files & Solutions</h3><label>Order<select id="file-order"></select></label><div id="file-list" class="chat-box"></div><label>Upload Student File<input id="student-file" type="file"></label><div id="student-dropzone" class="dropzone">Drop file here to upload to selected order</div><progress id="student-upload-progress" max="100" value="0" class="upload-progress"></progress><button id="upload-student-file" class="btn btn-outline" type="button">Upload File</button><p id="file-status" class="status"></p></article>
+    </div>
+    <div id="view-referrals" class="portal-view">
+      <article class="card">
+        <h3>My Referral Program</h3>
+        <p>Your private code: <strong id="my-ref-code">-</strong></p>
+        <div class="grid3">
+          <article class="card"><h3 id="ref-approved">0</h3><p>Approved</p></article>
+          <article class="card"><h3 id="ref-pending">0</h3><p>Pending</p></article>
+          <article class="card"><h3 id="ref-rejected">0</h3><p>Rejected</p></article>
+        </div>
+        <div style="overflow:auto;margin-top:.8rem"><table class="data-table" id="ref-table"><thead><tr><th>Referred</th><th>Status</th><th>Reward</th><th>Verified At</th></tr></thead><tbody></tbody></table></div>
+      </article>
+    </div>
+  </section>
+</div>
+<script src="/socket.io/socket.io.js"></script><script src="/js/student-dashboard.js"></script>
+</body></html>
+
+
+
+
+
+
+
+

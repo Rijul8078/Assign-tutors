@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Dashboard | Assign Tutors</title><meta name="theme-color" content="#1f5f4a"><link rel="manifest" href="/manifest.webmanifest"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/styles.css"></head>
+<body class="portal-bg">
+<div class="portal-layout">
+  <aside class="portal-sidebar">
+    <a class="brand" href="/"><img src="/assets/assign_tutors_logo_transparent.png" alt="logo"><span class="sr-only">Assign Tutors</span></a>
+    <nav class="portal-nav">
+      <a href="#" class="active" data-view="overview">Overview</a>
+      <a href="#" data-view="students">Student Accounts</a>
+      <a href="#" data-view="create-order">Create Order</a>
+      <a href="#" data-view="orders">Orders</a>
+      <a href="#" data-view="leads">Leads</a>
+      <a href="#" data-view="updates">Progress Updates</a>
+      <a href="#" data-view="files">Solution Uploads</a>
+      <a href="#" data-view="discounts">Discount Codes</a>
+      <a href="#" data-view="announcements">Announcements</a>
+      <a href="#" data-view="referrals">Referral Verification</a>
+      <a href="#" data-view="chat">Live Comments</a>
+    </nav>
+    <button id="logout" class="btn btn-outline" type="button">Logout</button>
+  </aside>
+  <section class="portal-main">
+    <header class="portal-topbar"><h1>Admin Dashboard</h1><div class="top-actions"><label>Currency<select id="currency-select-admin"><option value="INR">INR</option><option value="GBP">GBP</option><option value="USD">USD</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="EUR">EUR</option><option value="AED">AED</option></select></label><button id="sync-supabase" class="btn btn-outline" type="button">Sync To Supabase</button><p id="admin-welcome">Workspace</p></div></header>
+
+    <div id="view-overview" class="portal-view active"><div class="grid3"><article class="card kpi"><h3 id="kpi-students">0</h3><p>Students</p></article><article class="card kpi"><h3 id="kpi-orders">0</h3><p>Orders</p></article><article class="card kpi"><h3 id="kpi-progress">0%</h3><p>Avg Progress</p></article></div></div>
+
+    <div id="view-students" class="portal-view"><article class="card"><h3>Create Student Account (after confirmation)</h3><div class="form-grid"><label>Full Name<input id="s-name"></label><label>Email<input id="s-email" type="email"></label><label>Phone<input id="s-phone"></label><label>Temporary Password<input id="s-pass"></label></div><button id="create-student" class="btn btn-primary" type="button">Create Student</button><p id="student-msg" class="status"></p></article></div>
+
+    <div id="view-create-order" class="portal-view"><article class="card"><h3>Create Order (Auto Order ID)</h3><div class="form-grid"><label>Student<select id="o-student"></select></label><label>Title<input id="o-title"></label><label>Subject<input id="o-subject"></label><label>Type<input id="o-type"></label><label>Deadline<input id="o-deadline" type="datetime-local"></label><label>Budget Total<input id="o-budget" type="number" step="0.01"></label><label>Paid<input id="o-paid" type="number" step="0.01"></label><label>Due Payment<input id="o-due" type="number" step="0.01"></label></div><label>Description<textarea id="o-desc" rows="3"></textarea></label><button id="create-order" class="btn btn-primary" type="button">Create Order</button><p id="order-msg" class="status"></p></article></div>
+
+    <div id="view-orders" class="portal-view"><article class="card"><h3>Orders Registry</h3><div style="overflow:auto"><table class="data-table" id="admin-orders"><thead><tr><th>Order ID</th><th>Student</th><th>Status</th><th>Progress</th><th>Budget</th><th>Paid</th><th>Due</th></tr></thead><tbody></tbody></table></div></article></div>
+
+    <div id="view-leads" class="portal-view"><article class="card"><h3>Leads (Website Enquiries)</h3><div class="form-grid"><label>Status<select id="lead-status"><option value="">All</option><option value="new">New</option><option value="contacted">Contacted</option><option value="closed">Closed</option></select></label><label>Search<input id="lead-search" placeholder="name/email/phone/subject"></label><label>From<input id="lead-from" type="date"></label><label>To<input id="lead-to" type="date"></label></div><div class="btns"><button id="load-leads" class="btn btn-primary" type="button">Apply Filter</button><a id="export-leads" class="btn btn-outline" href="#" target="_blank" rel="noopener">Export CSV</a></div><p id="lead-msg" class="status"></p><div style="overflow:auto"><table class="data-table" id="lead-table"><thead><tr><th>ID</th><th>Created</th><th>Name</th><th>Contact</th><th>Subject/Type</th><th>Deadline</th><th>Budget</th><th>Referral</th><th>File</th></tr></thead><tbody></tbody></table></div></article></div>
+
+    <div id="view-updates" class="portal-view"><article class="card"><h3>Update Order Progress</h3><div class="form-grid"><label>Order<select id="u-order"></select></label><label>Status<input id="u-status" placeholder="In Progress"></label><label>Progress %<input id="u-progress" type="number" min="0" max="100"></label><label>Budget<input id="u-budget" type="number" step="0.01"></label><label>Paid<input id="u-paid" type="number" step="0.01"></label><label>Due<input id="u-due" type="number" step="0.01"></label></div><label>Notes<textarea id="u-desc" rows="3"></textarea></label><button id="update-order" class="btn btn-primary" type="button">Update Order</button><p id="update-msg" class="status"></p></article></div>
+
+    <div id="view-files" class="portal-view"><article class="card"><h3>Upload Solution / Work Files</h3><label>Order<select id="f-order"></select></label><label>Select File<input id="solution-file" type="file"></label><div id="solution-dropzone" class="dropzone">Drop solution file here for selected order</div><progress id="solution-upload-progress" max="100" value="0" class="upload-progress"></progress><button id="upload-solution" class="btn btn-primary" type="button">Upload Solution File</button><p id="file-msg" class="status"></p><div id="admin-file-list" class="chat-box"></div></article></div>
+
+    <div id="view-discounts" class="portal-view"><article class="card"><h3>Website Discount Codes</h3><div class="form-grid"><label>Code<input id="d-code" placeholder="ASSIGN15"></label><label>Title<input id="d-title" placeholder="Exam Season Offer"></label><label>Type<select id="d-type"><option value="percent">Percent</option><option value="fixed">Fixed</option></select></label><label>Value<input id="d-value" type="number" min="1" step="0.01" placeholder="15"></label><label>Starts At<input id="d-start" type="datetime-local"></label><label>Ends At<input id="d-end" type="datetime-local"></label><label>Publish on Website<select id="d-show"><option value="1">Yes</option><option value="0">No</option></select></label><label>Active<select id="d-active"><option value="1">Active</option><option value="0">Inactive</option></select></label></div><label>Description<textarea id="d-desc" rows="3" placeholder="Short offer description"></textarea></label><button id="create-discount" class="btn btn-primary" type="button">Create Discount Code</button><p id="discount-msg" class="status"></p></article><article class="card"><h3>Manage Existing Codes</h3><div style="overflow:auto"><table class="data-table" id="discount-table"><thead><tr><th>Code</th><th>Offer</th><th>Window</th><th>Status</th><th>Website</th><th>Action</th></tr></thead><tbody></tbody></table></div></article></div>
+
+    <div id="view-announcements" class="portal-view"><article class="card"><h3>In-Dashboard Announcements</h3><div class="form-grid"><label>Title<input id="a-title" placeholder="Holiday Schedule Update"></label><label>Active<select id="a-active"><option value="1">Active</option><option value="0">Inactive</option></select></label></div><label>Message<textarea id="a-message" rows="4" placeholder="Write update for students..."></textarea></label><button id="post-announcement" class="btn btn-primary" type="button">Post Announcement</button><p id="announcement-msg" class="status"></p></article><article class="card"><h3>Recent Announcements</h3><div style="overflow:auto"><table class="data-table" id="announcement-table"><thead><tr><th>Created</th><th>Title</th><th>Message</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div></article></div>
+
+    <div id="view-referrals" class="portal-view"><article class="card"><h3>Pending Referral Verification</h3><div style="overflow:auto"><table class="data-table" id="pending-ref-table"><thead><tr><th>Enquiry ID</th><th>Candidate</th><th>Referrer</th><th>Code</th><th>Action</th></tr></thead><tbody></tbody></table></div><p id="ref-action-msg" class="status"></p></article></div>
+
+    <div id="view-chat" class="portal-view"><article class="card"><h3>Live Comment / Message to Student</h3><label>Order<select id="m-order"></select></label><div id="admin-chat-box" class="chat-box"></div><label>Message<textarea id="m-text" rows="3"></textarea></label><label>Attach File<input id="m-file" type="file"></label><div id="admin-chat-dropzone" class="dropzone">Drop file here to attach in message</div><progress id="admin-chat-upload-progress" max="100" value="0" class="upload-progress"></progress><button id="send-admin-msg" class="btn btn-primary" type="button">Send Message</button><p id="m-status" class="status"></p></article></div>
+  </section>
+</div>
+<script src="/socket.io/socket.io.js"></script><script src="/js/admin-dashboard.js"></script>
+</body></html>
+
+
+
+
+
+
+
+

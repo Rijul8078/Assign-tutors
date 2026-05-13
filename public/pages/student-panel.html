@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Student Panel | Assign Tutors</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/styles.css"></head>
+<body>
+<header class="site-header"><nav class="container nav"><a class="brand" href="/"><img src="/assets/assign_tutors_logo_transparent.png" alt="logo"><span class="sr-only">Assign Tutors</span></a><button id="menu-toggle" class="menu-toggle">Menu</button><ul id="nav-links" class="nav-links"><li><a href="/">Home</a></li><li><a href="/pages/contact.html">Contact</a></li><li><a class="active" href="/pages/student-login.html">Student Panel</a></li><li><a href="/pages/admin-login.html">Admin Workspace</a></li></ul></nav></header>
+<main class="section container">
+  <div class="section-head"><span class="badge">Dedicated Student Panel</span><h1>Track Work, Payments, and Progress Live</h1></div>
+  <section class="form-wrap">
+    <h3>Student Login</h3>
+    <div class="form-grid"><label>Email<input id="login-email" type="email"></label><label>Password<input id="login-password" type="password"></label></div>
+    <button id="login-btn" class="btn btn-primary" type="button">Login</button>
+    <p id="login-status" class="status"></p>
+  </section>
+
+  <section id="student-app" style="display:none" class="section">
+    <div class="card"><h3>Your Orders</h3><div style="overflow:auto"><table class="data-table" id="orders-table"><thead><tr><th>Order ID</th><th>Title</th><th>Status</th><th>Progress</th><th>Budget</th><th>Paid</th><th>Due</th><th>Deadline</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="grid2" style="margin-top:1rem">
+      <article class="card"><h3>Live Order Chat</h3><label>Order<select id="chat-order"></select></label><div id="chat-box" class="chat-box"></div><label>Message<textarea id="chat-message" rows="3"></textarea></label><button id="send-chat" class="btn btn-primary" type="button">Send Message</button></article>
+      <article class="card"><h3>Live Notifications</h3><div id="notif-box" class="chat-box"></div></article>
+    </div>
+  </section>
+</main>
+<footer><div class="container footer-grid"><div><a class="brand" href="/"><img src="/assets/assign_tutors_logo_transparent.png" alt="logo"><span class="sr-only">Assign Tutors</span></a><p>Dedicated student panel is provided after admin confirms work.</p></div><div><h3>Contact Email</h3><p><a href="mailto:aspirescholarsedu@gmail.com">aspirescholarsedu@gmail.com</a></p><p><a href="mailto:rajeevjh7665@gmail.com">rajeevjh7665@gmail.com</a></p></div><div><h3>WhatsApp</h3><p><a href="https://wa.me/919119235092" target="_blank">+91 91192 35092</a></p><p><a href="https://wa.me/447434761786" target="_blank">+44 7434 761786</a></p></div></div><p class="copy">© <span id="year"></span> Assign Tutors</p></footer>
+<script src="/js/main.js"></script><script src="/js/student-panel.js"></script>
+</body></html>
+
+
+
+
+
+
+
+
+
