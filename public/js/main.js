@@ -13,7 +13,18 @@ if (!document.querySelector('meta[name="theme-color"]')) {
 }
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+    navigator.serviceWorker.register("/sw.js").then((reg) => {
+      if (reg.waiting) reg.waiting.postMessage("SKIP_WAITING");
+      reg.addEventListener("updatefound", () => {
+        const nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener("statechange", () => {
+          if (nw.state === "installed" && navigator.serviceWorker.controller) {
+            nw.postMessage("SKIP_WAITING");
+          }
+        });
+      });
+    }).catch(() => {});
   });
 }
 const toggle = document.getElementById("menu-toggle");
